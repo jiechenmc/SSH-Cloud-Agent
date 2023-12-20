@@ -3,15 +3,18 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"ssh_cloud_agent/core"
 )
 
 func main() {
+
+	fmt.Println(os.Getenv("HOME"))
 	ssh, err := core.NewSshClient(
 		"azureuser",
 		"52.151.255.24",
 		22,
-		"/home/chenj7728/.ssh/id_rsa",
+		os.Getenv("HOME")+"/.ssh/id_rsa",
 		"")
 
 	if err != nil {
