@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"io/fs"
 	"log"
 	"os"
 	"ssh_cloud_agent/core"
+	"sync"
 )
 
 func main() {
@@ -25,13 +26,16 @@ func main() {
 			log.Fatal(err)
 		}
 
+		var wg sync.WaitGroup
+
 		for _, file := range files {
-			go ssh.CopyFile("./files/"+file.Name(), file.Name())
+			wg.Add(1)
+			go func(file fs.DirEntry) {
+				ssh.CopyFile("./files/"+file.Name(), file.Name())
+				defer wg.Done()
+			}(file)
 		}
-
-		output, err := ssh.RunCommand("./echo.sh")
-		fmt.Println(output)
-
+		wg.Wait()
 		if err != nil {
 			log.Printf("SSH run command error %v", err)
 		}
