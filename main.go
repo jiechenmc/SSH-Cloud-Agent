@@ -59,8 +59,7 @@ func main() {
 		wg.Wait()
 		wg.Add(1)
 		go func() {
-			ssh.RunCommand("sudo ./up.sh")
-			fmt.Printf("UP RAN\n")
+			ssh.RunCommand("screen sudo ./up.sh")
 			defer wg.Done()
 		}()
 		wg.Wait()
