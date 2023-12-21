@@ -104,6 +104,8 @@ func (s *SshClient) CopyFile(srcFilePath, remoteFilePath string) (string, error)
 		return "", err
 	}
 
+	fmt.Printf("%s -> %s GOOD\n", srcFilePath, remoteFilePath)
+
 	return "", nil
 }
 
