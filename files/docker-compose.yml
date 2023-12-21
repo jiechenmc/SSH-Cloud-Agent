@@ -27,5 +27,11 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  mongodb_exporter:
+    image: percona/mongodb_exporter:0.20
+    command:
+      - '--mongodb.uri=mongodb://root:example@mongo:27017'
+    restart: unless-stopped
+
 volumes:
   PROMETHEUS:
