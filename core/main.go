@@ -1,6 +1,7 @@
 package core
 
 import (
+	"context"
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
@@ -8,6 +9,7 @@ import (
 	"net"
 	"os"
 
+	"github.com/bramvdbogaerde/go-scp"
 	"golang.org/x/crypto/ssh"
 )
 
@@ -68,6 +70,41 @@ func (s *SshClient) RunCommand(cmd string) (string, error) {
 	output, err := session.CombinedOutput(cmd)
 
 	return fmt.Sprintf("%s", output), err
+}
+
+func (s *SshClient) CopyFile(srcFilePath, remoteFilePath string) (string, error) {
+	conn, err := ssh.Dial("tcp", s.Server, s.Config)
+
+	if err != nil {
+		return "", fmt.Errorf("Dial to %v failed %v", s.Server, err)
+	}
+
+	client, err := scp.NewClientBySSH(conn)
+	if err != nil {
+		fmt.Println("Error creating new SSH session from existing connection", err)
+	}
+
+	// Open a file
+	f, _ := os.Open(srcFilePath)
+
+	// Close client connection after the file has been copied
+	defer client.Close()
+
+	// Close the file after it has been copied
+	defer f.Close()
+
+	// Finaly, copy the file over
+	// Usage: CopyFromFile(context, file, remotePath, permission)
+
+	// the context can be adjusted to provide time-outs or inherit from other contexts if this is embedded in a larger application.
+	err = client.CopyFromFile(context.Background(), *f, remoteFilePath, "0777")
+
+	if err != nil {
+		fmt.Println("Error while copying file ", err)
+		return "", err
+	}
+
+	return "", nil
 }
 
 func signerFromPem(pemBytes []byte, password []byte) (ssh.Signer, error) {
