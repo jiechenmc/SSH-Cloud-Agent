@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io/fs"
 	"log"
 	"os"
 	"ssh_cloud_agent/core"
@@ -42,17 +41,14 @@ func main() {
 			files, err := os.ReadDir("./files")
 			check(err)
 			for _, file := range files {
-				go func(file fs.DirEntry) {
-					srcFilePath := "./files/" + file.Name()
-					remoteFilePath := file.Name()
-					_, err = ssh.CopyFile(srcFilePath, remoteFilePath)
-					if err != nil {
-						fmt.Printf("%s@%s %s\n", user, ip, err)
-					} else {
-						fmt.Printf("%s@%s\t%s -> %s GOOD\n", user, ip, srcFilePath, remoteFilePath)
-					}
-
-				}(file)
+				srcFilePath := "./files/" + file.Name()
+				remoteFilePath := file.Name()
+				_, err = ssh.CopyFile(srcFilePath, remoteFilePath)
+				if err != nil {
+					fmt.Printf("%s@%s %s\n", user, ip, err)
+				} else {
+					fmt.Printf("%s@%s\t%s -> %s GOOD\n", user, ip, srcFilePath, remoteFilePath)
+				}
 			}
 			ssh.RunCommand("sudo ./up.sh")
 			fmt.Printf("%s@%s DONE\n", user, ip)
