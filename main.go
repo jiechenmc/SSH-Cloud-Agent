@@ -55,6 +55,7 @@ func main() {
 				}(file)
 			}
 			ssh.RunCommand("sudo ./up.sh")
+			fmt.Printf("%s@%s DONE\n", user, ip)
 			defer wg.Done()
 		}()
 	}
