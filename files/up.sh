@@ -37,4 +37,4 @@
 # sudo docker system prune -f
 
 sudo apt-get update -y; sudo apt-get upgrade -y; sudo apt-get install -y libuv1-dev
-sudo ufw enable; sudo ufw allow 10000/tcp; sudo ufw allow 20000/tcp; sudo ufw allow 22/tcp; sudo ufw status verbose;
+# sudo ufw enable; sudo ufw allow 10000/tcp; sudo ufw allow 20000/tcp; sudo ufw allow 22/tcp; sudo ufw status verbose;
