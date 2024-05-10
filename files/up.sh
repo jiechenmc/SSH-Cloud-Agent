@@ -38,27 +38,27 @@
 
 sudo apt-get update -y; sudo apt-get upgrade -y; sudo apt-get install libuv1-dev -y 
 # sudo ufw enable; sudo ufw allow 10000/tcp; sudo ufw allow 20000/tcp; sudo ufw allow 22/tcp; sudo ufw status verbose;
-export POMPE_HOME=/users/chenj/Pompe-HS
+# export POMPE_HOME=/users/chenj/Pompe-HS
 
-sudo rm -rf $POMPE_HOME
-git clone https://github.com/jiechenmc/Pompe-HS.git
+# sudo rm -rf $POMPE_HOME
+# git clone https://github.com/jiechenmc/Pompe-HS.git
 
-sudo chmod +w Pompe-HS/**/
+# sudo chmod +w Pompe-HS/**/
 
-sudo rm -rf $POMPE_HOME/experiments/pompe/conf-distributed/*
+# sudo rm -rf $POMPE_HOME/experiments/pompe/conf-distributed/*
 
-echo "\nexport POMPE_HOME=/users/chenj/Pompe-HS" > .zshrc
-echo "\nexport POMPE_HOME=/users/chenj/Pompe-HS" >> /etc/environment
-source .zshrc
+# echo "\nexport POMPE_HOME=/users/chenj/Pompe-HS" > .zshrc
+# echo "\nexport POMPE_HOME=/users/chenj/Pompe-HS" >> /etc/environment
+# source .zshrc
 
-cd $POMPE_HOME
-git submodule update --init --recursive
-$POMPE_HOME/install_deps.sh
+# cd $POMPE_HOME
+# git submodule update --init --recursive
+# $POMPE_HOME/install_deps.sh
 
-cd $POMPE_HOME/libhotstuff
-sudo apt install doxygen -y
-cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED=ON -DHOTSTUFF_PROTO_LOG=ON
-make
+# cd $POMPE_HOME/libhotstuff
+# sudo apt install doxygen -y
+# cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED=ON -DHOTSTUFF_PROTO_LOG=ON
+# make
 
-cd examples
-sudo make
+# cd examples
+# sudo make
